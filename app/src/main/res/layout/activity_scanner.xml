@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context=".ScannerActivity">
+    <!--TODO: Later show frames on this-->
+    <!--    <SurfaceView-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="match_parent" />-->
+
+    <LinearLayout
+        android:id="@+id/prevLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="150dp"
+        android:orientation="vertical">
+
+        <androidx.camera.view.PreviewView
+            android:id="@+id/cameraPreview"
+            android:layout_width="match_parent"
+            android:layout_height="100dp" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fabCameraFlash"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginTop="-40dp"
+            android:layout_marginEnd="20dp"
+            android:contentDescription="Toggle Flash"
+            android:scaleType="center"
+            android:src="@drawable/baseline_flash_off_24"
+            tools:ignore="HardcodedText" />
+    </LinearLayout>
+
+    <EditText
+        android:id="@+id/recognizedCreditText"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_below="@+id/prevLayout"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:hint="Your Credit PIN will appear here"
+        android:importantForAutofill="no"
+        android:inputType="number"
+        tools:ignore="HardcodedText,LabelFor" />
+
+</RelativeLayout>

@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">USSD Recharge KE</string>
+    <string name="safaricom_slogan">The Better Option</string>
+    <string name="telkom_slogan">Moving Forward</string>
+    <string name="airtel_slogan">The Smartphone Network</string>
+    <string name="faiba_slogan">I am Future Proof</string>
+    <string name="safaricom_name">Safaricom</string>
+    <string name="airtel_name">Airtel</string>
+    <string name="telkom_name">Telkom</string>
+    <string name="sp_name">Service Provider Name</string>
+    <string name="ussd_name">Code Name</string>
+    <string name="ussd_code">USSD Code</string>
+    <string name="sp_slogan">Service Provider Slogan</string>
+    <string name="enter_the_digits">Enter the digits</string>
+    <string name="dial_text">Dial</string>
+    <string name="cancel_text">Cancel</string>
+    <string name="ussd">USSD</string>
+    <string name="scan">Scan</string>
+    <string name="search">Search</string>
+    <string name="call_provider">Call Provider</string>
+    <string name="settings">Settings</string>
+</resources>

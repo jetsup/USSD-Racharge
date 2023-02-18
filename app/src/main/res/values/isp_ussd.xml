@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="isp_names">
+        <item>Safaricom</item>
+        <item>Airtel</item>
+        <item>Telkom</item>
+        <item>Faiba</item>
+    </string-array>
+    <string-array name="isp_slogans">
+        <item>The Better Option</item>
+        <item>The Smartphone Network</item>
+        <item>Moving Forward</item>
+        <item>I am Future Proof</item>
+    </string-array>
+
+    <!--CodeContent USSD Codes-->
+    <string-array name="safaricom_ussd_code_names">
+        <item>Main menu</item>
+        <item>Safaricom services</item>
+        <item>M-PESA services</item>
+        <item>Blaze Menu</item>
+        <item>Airtime top up</item>
+        <item>Airtime balance</item>
+        <item>Topping up data</item>
+        <item>Sambaza</item>
+        <item>Data menu</item>
+        <item>Data balance</item>
+        <item>Internet Settings</item>
+        <item>SMS bundles</item>
+        <item>Bonga Points</item>
+        <item>Please Call Me</item>
+        <item>SIM registration</item>
+        <item>Skiza Tunes</item>
+        <item>Safaricom Home Fiber</item>
+        <item>Stop Safaricom Promotion SMS</item>
+        <item>Classifieds and Alerts</item>
+        <item>Safaricom Business</item>
+        <item>Activate voicemail</item>
+        <item>Deactivate voicemail</item>
+        <item>Activate missed call alert service</item>
+        <item>Deactivate missed call alert service</item>
+        <item>Activate call barring (outgoing)</item>
+        <item>Deactivate call barring (outgoing)</item>
+        <item>Activate call barring (incoming)</item>
+        <item>Deactivate call barring (incoming)</item>
+        <item>Bar all incoming calls (except form home country)</item>
+        <item>Deactivate all incoming calls (except home calls)</item>
+        <item>Bar all international calls</item>
+        <item>Deactivate barring all international calls</item>
+        <item>Bar all incoming SMS</item>
+        <item>Deactivate barring all incoming SMS</item>
+        <item>Deactivate all types of barring</item>
+    </string-array>
+
+    <string-array name="safaricom_ussd_codes">
+        <item>*100#(prepaid)/*200#(postpaid)</item>
+        <item>*456#</item>
+        <item>*234#</item>
+        <item>*555#</item>
+        <item>*141*PIN#</item>
+        <item>*144#</item>
+        <item>*544*PIN#</item>
+        <item>*100*1*4#</item>
+        <item>*544#</item>
+        <item>*450#</item>
+        <item>*445#</item>
+        <item>*188#</item>
+        <item>*456*3# or *126#</item>
+        <item>*130* phone number#</item>
+        <item>*232#</item>
+        <item>*811#</item>
+        <item>*400#</item>
+        <item>*100*5*5#</item>
+        <item>*411#</item>
+        <item>*485#</item>
+        <item>*222#</item>
+        <item>##002#</item>
+        <item>*62*0722199199#</item>
+        <item>##62#</item>
+        <item>*33*0000#</item>
+        <item>#33*0000#</item>
+        <item>*35*0000#</item>
+        <item>#35*0000#</item>
+        <item>*332*0000#</item>
+        <item>#332*0000#</item>
+        <item>*331*0000#</item>
+        <item>#331*0000#</item>
+        <item>*35*0000*16#</item>
+        <item>#35*0000*16#</item>
+        <item>#330*0000#</item>
+    </string-array>
+
+    <!--Airtel USSD Codes-->
+    <string-array name="airtel_ussd_code_names">
+        <item>Main Menu</item>
+        <item>Airtime top up</item>
+        <item>Airtime balance</item>
+        <item>Data top up</item>
+        <item>Buy Data</item>
+        <item>Data balance</item>
+        <item>SMS bundles</item>
+        <item>UnlimiNet</item>
+        <item>Tosha Bundles</item>
+        <item>Tubonge plan</item>
+        <item>Kopa Kredo</item>
+        <item>Kopa Internet</item>
+        <item>Roaming Bundles</item>
+        <item>Zawadi Points</item>
+        <item>Redeemed Airtime Balance</item>
+        <item>Alerts</item>
+        <item>Flash back</item>
+    </string-array>
+
+    <string-array name="airtel_ussd_codes">
+        <item>*100# or *111#</item>
+        <item>*130*PIN#</item>
+        <item>*133# or *131#</item>
+        <item>*544*PIN#</item>
+        <item>*544# or *767*3#</item>
+        <item>*544*3#</item>
+        <item>*544# or *767# or *767*2#</item>
+        <item>*544#</item>
+        <item>*767# or *6767*1#</item>
+        <item>*544#</item>
+        <item>*310#</item>
+        <item>*544#</item>
+        <item>*544#</item>
+        <item>*326#</item>
+        <item>*131*8#</item>
+        <item>*411#</item>
+        <item>*100#</item>
+    </string-array>
+
+    <!--Telkom USSD Codes-->
+    <string-array name="telkom_ussd_code_names">
+        <item>Main Menu</item>
+        <item>Airtime top up</item>
+        <item>Airtime balance</item>
+        <item>Buy data bundles</item>
+        <item>Data balance</item>
+        <item>Home Plan bundles for 4G Routers</item>
+        <item>Niaje Bundles</item>
+        <item>Holla Bundles</item>
+        <item>Unsubscribe from Holla bundles</item>
+        <item>Pasha</item>
+        <item>SMS bundles</item>
+        <item>Ziada Points</item>
+        <item>Pewa</item>
+        <item>Ziada Points balance</item>
+        <item>Mobile number</item>
+        <item>Check SIM registration</item>
+        <item>Telkom Entertainment</item>
+        <item>Beat Yangu</item>
+        <item>International bundles</item>
+    </string-array>
+    <string-array name="telkom_ussd_codes">
+        <item>*100# or *123#</item>
+        <item>*130*PIN#</item>
+        <item>*131#</item>
+        <item>*544# or *124#</item>
+        <item>*131# or *544#</item>
+        <item>*222#</item>
+        <item>*10#</item>
+        <item>*10#</item>
+        <item>*11#</item>
+        <item>*140#</item>
+        <item>*188#</item>
+        <item>*126#</item>
+        <item>*133#</item>
+        <item>*131#</item>
+        <item>*130#</item>
+        <item>*232#</item>
+        <item>*150#</item>
+        <item>*811#</item>
+        <item>*123#</item>
+    </string-array>
+
+    <!--Faiba USSD Codes-->
+    <string-array name="faiba_ussd_code_names">
+        <item>Data manager</item>
+        <item>Main Menu</item>
+        <item>Show Phone Number</item>
+        <item>Account Balance</item>
+        <item>Buy Bundles</item>
+        <item>Transfer Airtime</item>
+        <item>Customer Service</item>
+    </string-array>
+    <string-array name="faiba_ussd_codes">
+        <item>*135#</item>
+        <item>*111#</item>
+        <item>*130#</item>
+        <item>*131#</item>
+        <item>*544#</item>
+        <item>*140#</item>
+        <item>100</item>
+    </string-array>
+
+</resources>

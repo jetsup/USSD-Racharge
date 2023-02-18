@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/isp_main_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="10dp"
+    app:cardUseCompatPadding="true">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/isp_main_logo"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:src="@drawable/hck" />
+
+        <LinearLayout
+            android:id="@+id/ispDetailsLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="10dp"
+            android:layout_toEndOf="@id/isp_main_logo"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/serviceProvider"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="@string/sp_name"
+                android:textColor="@color/black_white"
+                android:textSize="@dimen/text25"
+                android:textStyle="bold|normal" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/serviceProviderSlogan"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:ellipsize="end"
+                    android:maxWidth="250dp"
+                    android:maxLines="1"
+                    android:text="@string/sp_slogan"
+                    android:textColor="@color/grey"
+                    android:textSize="18sp"
+                    android:textStyle="italic" />
+
+                <!--TODO: Handle multi-sim case with same carrier-->
+                <ImageView
+                    android:id="@+id/firstSim"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_gravity="center_vertical"
+                    android:contentDescription="First SIM to be detected"
+                    android:gravity="end"
+                    android:src="@drawable/baseline_sim_card_24"
+                    android:text="SIM 1"
+                    android:textSize="18sp"
+                    android:visibility="gone"
+                    tools:ignore="HardcodedText" />
+
+            </RelativeLayout>
+        </LinearLayout>
+    </RelativeLayout>
+</androidx.cardview.widget.CardView>
