@@ -1,11 +1,13 @@
 package com.jetsup.ussdracharge.fragments;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 
@@ -19,13 +21,20 @@ import yuku.ambilwarna.AmbilWarnaDialog;
 public class SettingsFragment extends PreferenceFragmentCompat {
     final String TAG = "MyTag";
     int currentColor;
+    Context context;
     SharedPreferences settingsPreference;
 
     @Override
     public void onCreatePreferences(@Nullable Bundle savedInstanceState, @Nullable String rootKey) {
         setPreferencesFromResource(R.xml.main_setting_screen, rootKey);
+        context = this.requireContext();
         settingsPreference = Objects.requireNonNull(getPreferenceManager().getSharedPreferences());
         currentColor = settingsPreference.getInt("accentColor", R.color.teal_200);
+
+        Objects.requireNonNull(ResourcesCompat.getDrawable(context.getResources(), R.drawable.accent_color_viewer, null))
+                .setTint(currentColor);
+        Objects.requireNonNull(ResourcesCompat.getDrawable(context.getResources(), R.drawable.moon, null))
+                .setTint(getResources().getColor(R.color.grey, null));
     }
 
     @Override
@@ -40,6 +49,11 @@ public class SettingsFragment extends PreferenceFragmentCompat {
                 @Override
                 public void onOk(AmbilWarnaDialog dialog, int color) {
                     settingsPreference.edit().putInt("accentColor", color).apply();
+                    Objects.requireNonNull(ResourcesCompat
+                                    .getDrawable(SettingsFragment.this.requireContext().getResources(),
+                                            R.drawable.accent_color_viewer, null))
+                            .setTint(color);
+                    preference.setIcon(R.drawable.accent_color_viewer);
                     currentColor = color;
                 }
             }).show();

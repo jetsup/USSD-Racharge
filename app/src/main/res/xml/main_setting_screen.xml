@@ -8,7 +8,7 @@
             app:defaultValue="Use System Theme"
             app:entries="@array/pref_themes_entries"
             app:entryValues="@array/pref_themes_values"
-            app:iconSpaceReserved="false"
+            app:icon="@drawable/moon"
             app:key="preferenceTheme"
             app:title="Theme"
             app:useSimpleSummaryProvider="true" />
@@ -16,6 +16,7 @@
         <com.jetsup.ussdracharge.custom.PreferenceColorDialog
             android:title="Accent Color"
             app:dialogTitle="Select Accent Color"
+            app:icon="@drawable/accent_color_viewer"
             app:key="accentColor"
             app:negativeButtonText="Cancel"
             app:persistent="true"
