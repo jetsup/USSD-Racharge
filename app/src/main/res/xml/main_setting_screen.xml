@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <PreferenceCategory
+        app:allowDividerBelow="true"
+        app:title="Theme">
+        <ListPreference
+            app:defaultValue="Use System Theme"
+            app:entries="@array/pref_themes_entries"
+            app:entryValues="@array/pref_themes_values"
+            app:iconSpaceReserved="false"
+            app:key="preferenceTheme"
+            app:title="Theme"
+            app:useSimpleSummaryProvider="true" />
+        <!--Accent Color Dialog-->
+        <com.jetsup.ussdracharge.custom.PreferenceColorDialog
+            android:title="Accent Color"
+            app:dialogTitle="Select Accent Color"
+            app:key="accentColor"
+            app:negativeButtonText="Cancel"
+            app:persistent="true"
+            app:positiveButtonText="Select"
+            app:summary="Select accent color for the app" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        app:allowDividerBelow="true"
+        app:title="Updates">
+        <SwitchPreferenceCompat
+            app:iconSpaceReserved="false"
+            app:key="prefNotifyUpdate"
+            app:summary="Get notified when a new update is released"
+            app:title="Notify Update" />
+        <SwitchPreferenceCompat
+            app:iconSpaceReserved="false"
+            app:key="prefAutoUpdate"
+            app:summary="Download updates automatically"
+            app:title="Auto Update" />
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="About">
+        <Preference
+            app:enabled="false"
+            app:iconSpaceReserved="false"
+            app:key="preferenceAppVersion"
+            app:summary="1.0.0"
+            app:title="Version" />
+    </PreferenceCategory>
+</PreferenceScreen>

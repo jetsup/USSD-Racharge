@@ -33,7 +33,6 @@
         <activity
             android:name=".CodeContent"
             android:exported="false" />
-        <!--        <activity android:name="kenyaussdtivity" android:exported="true"/>-->
         <activity
             android:name=".MainActivity"
             android:exported="true">

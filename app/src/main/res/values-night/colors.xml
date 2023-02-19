@@ -10,7 +10,11 @@
     <color name="black_white">#FFFFFF</color>
     <color name="grey">#A0A0A0</color>
     <color name="safaricom_green">#159F4A</color>
+    <color name="status_safaricom_green">#107F3B</color>
     <color name="airtel_red">#EC1A23</color>
+    <color name="status_airtel_red">#E70A14</color>
     <color name="telkom_blue">#0FAACA</color>
+    <color name="status_telkom_blue">#0A8ABB</color>
     <color name="faiba_green">#73AA4E</color>
+    <color name="status_faiba_green">#6E8A3F</color>
 </resources>

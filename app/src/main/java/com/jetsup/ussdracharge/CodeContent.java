@@ -10,6 +10,7 @@ import static com.jetsup.ussdracharge.custom.ISPConstants.ISP_NAME_TELKOM;
 import static com.jetsup.ussdracharge.custom.ISPConstants.ISP_SAFARICOM_CUSTOMER_CARE;
 import static com.jetsup.ussdracharge.custom.ISPConstants.ISP_SLOGAN_EXT;
 import static com.jetsup.ussdracharge.custom.ISPConstants.ISP_TELKOM_CUSTOMER_CARE;
+import static com.jetsup.ussdracharge.custom.ISPConstants.SAME_CARRIER;
 import static com.jetsup.ussdracharge.custom.ISPConstants.SELECT_SIM_SLOT;
 import static com.jetsup.ussdracharge.custom.ISPConstants.SIM_CARD_PRESENT;
 
@@ -48,7 +49,7 @@ public class CodeContent extends AppCompatActivity {
     ISPContentAdapter ispContentAdapter;
     Map<String, String> ispDeco = new HashMap<>();
     Map<String, String> ispCustomerCare = new HashMap<>();
-    private boolean simPresent = false;
+    private boolean simPresent = false, sameCarrier;
     private int simSlot = 99;
     private String ispName;
     private boolean simMatched = false;
@@ -73,6 +74,7 @@ public class CodeContent extends AppCompatActivity {
         ispNameReceived = getIntent().getStringExtra(ISP_NAME_EXT);
         ispSloganReceived = getIntent().getStringExtra(ISP_SLOGAN_EXT);
         simPresent = getIntent().getBooleanExtra(SIM_CARD_PRESENT, false);
+        sameCarrier = getIntent().getBooleanExtra(SAME_CARRIER, false);
 
         ispName = ispNameReceived;
         if (simPresent) {
@@ -113,7 +115,7 @@ public class CodeContent extends AppCompatActivity {
 
         Log.w("MyTag", "Slot: " + simSlot + " <> " + simMatched + " <> " + ispNameReceived + " <> ");
         if (simMatched) {
-            ispContentAdapter = new ISPContentAdapter(CodeContent.this, ispNameReceived.toLowerCase(), simSlot);
+            ispContentAdapter = new ISPContentAdapter(CodeContent.this, ispNameReceived.toLowerCase(), simSlot, sameCarrier);
         } else {
             ispContentAdapter = new ISPContentAdapter(CodeContent.this, ispNameReceived.toLowerCase());
         }
@@ -158,7 +160,9 @@ public class CodeContent extends AppCompatActivity {
                 Uri numberToCall = Uri.parse("tel:" + ispCustomerCare.get(ispName));
                 Intent callIntent = new Intent(Intent.ACTION_CALL);
                 callIntent.setData(numberToCall);
-                callIntent.putExtra(SELECT_SIM_SLOT, simSlot);
+                if (!sameCarrier) {
+                    callIntent.putExtra(SELECT_SIM_SLOT, simSlot);
+                }
                 // TODO: Display a dialog to confirm user want to call
                 startActivity(callIntent);
             }

@@ -6,6 +6,7 @@ import static com.jetsup.ussdracharge.custom.ISPConstants.SIM_CARD_PRESENT;
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -23,6 +24,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.camera.core.ExperimentalGetImage;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -37,8 +39,10 @@ public class MainActivity extends AppCompatActivity {
     public static final String TAG = "MyTag";
     private static final int PHONE_STATE_PERMISSION = 2;
     private final int CALL_PERMISSION_REQUEST_CODE = 1;
+    SharedPreferences settingsPreferences;
     List<SubscriptionInfo> activeSubscriptionInfoList;
     ISPAdapter ispAdapter;
+    boolean sameCarrier;
     int simCardsDetected;
     String[] simCards = {};
     RecyclerView mainRecyclerView;
@@ -76,6 +80,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // configure preferences
+        settingsPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+//        configTheme(settingsPreferences);
+
         setContentView(R.layout.activity_main);
         Objects.requireNonNull(getSupportActionBar()).setTitle(R.string.ussd);
         // Manage permissions
@@ -87,24 +95,23 @@ public class MainActivity extends AppCompatActivity {
                 Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_DENIED) {
             requestCallPermission();
         }
-
         // Check Sim cards
         SubscriptionManager subscriptionManager = (SubscriptionManager) getSystemService(Context.TELEPHONY_SUBSCRIPTION_SERVICE);
         activeSubscriptionInfoList = subscriptionManager.getActiveSubscriptionInfoList();
         simCardsDetected = activeSubscriptionInfoList.size();
         if (simCardsDetected > 0) {
             simCards = new String[simCardsDetected];
+            sameCarrier = simCardsDetected == 2 && activeSubscriptionInfoList.get(0).getCarrierName() == activeSubscriptionInfoList.get(1).getCarrierName();
             for (int i = 0; i < simCardsDetected; i++) {
                 simCards[i] = activeSubscriptionInfoList.get(i).getSimSlotIndex()
                         + " " + activeSubscriptionInfoList.get(i).getCarrierName() // use as key in the hashmap
                         + " " + activeSubscriptionInfoList.get(i).getIconTint();
             }
         }
-
         // Start initialization here
         mainRecyclerView = findViewById(R.id.ispRecyclerView);
         if (simCardsDetected > 0) {
-            ispAdapter = new ISPAdapter(MainActivity.this, activeSubscriptionInfoList);
+            ispAdapter = new ISPAdapter(MainActivity.this, activeSubscriptionInfoList, sameCarrier);
         } else {
             ispAdapter = new ISPAdapter(MainActivity.this);
         }

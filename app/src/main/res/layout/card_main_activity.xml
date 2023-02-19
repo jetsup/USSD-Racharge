@@ -59,20 +59,39 @@
                     android:textStyle="italic" />
 
                 <!--TODO: Handle multi-sim case with same carrier-->
-                <ImageView
-                    android:id="@+id/firstSim"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:orientation="horizontal"
+                    android:id="@+id/simLayout"
+                    android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
-                    android:layout_gravity="center_vertical"
-                    android:contentDescription="First SIM to be detected"
-                    android:gravity="end"
-                    android:src="@drawable/baseline_sim_card_24"
-                    android:text="SIM 1"
-                    android:textSize="18sp"
                     android:visibility="gone"
-                    tools:ignore="HardcodedText" />
+                    android:layout_gravity="center_vertical">
 
+                    <ImageView
+                        android:id="@+id/firstSim"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:contentDescription="First SIM to be detected"
+                        android:gravity="end"
+                        android:src="@drawable/baseline_sim_card_24"
+                        android:text="SIM 1"
+                        android:textSize="18sp"
+                        android:visibility="gone"
+                        tools:ignore="HardcodedText" />
+                    <ImageView
+                        android:id="@+id/secondSim"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:contentDescription="First SIM to be detected"
+                        android:gravity="end"
+                        android:src="@drawable/baseline_sim_card_24"
+                        android:text="SIM 1"
+                        android:textSize="18sp"
+                        android:visibility="gone"
+                        tools:ignore="HardcodedText" />
+
+                </LinearLayout>
             </RelativeLayout>
         </LinearLayout>
     </RelativeLayout>

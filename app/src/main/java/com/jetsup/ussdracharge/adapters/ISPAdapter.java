@@ -2,6 +2,7 @@ package com.jetsup.ussdracharge.adapters;
 
 import static com.jetsup.ussdracharge.custom.ISPConstants.ISP_NAME_EXT;
 import static com.jetsup.ussdracharge.custom.ISPConstants.ISP_SLOGAN_EXT;
+import static com.jetsup.ussdracharge.custom.ISPConstants.SAME_CARRIER;
 import static com.jetsup.ussdracharge.custom.ISPConstants.SIM_CARD_PRESENT;
 
 import android.content.Context;
@@ -12,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -38,22 +40,32 @@ public class ISPAdapter extends RecyclerView.Adapter<ISPAdapter.MyISPViewHolder>
     List<ISP> serviceProviders;
     Map<String, String> simInfo;
     private Map<String, Bitmap> simIcons;
-    private boolean hasSim;
+    private boolean hasSim, sameCarrier;
 
-    public ISPAdapter(Context context, List<SubscriptionInfo> simInfoReceived) {
+    public ISPAdapter(Context context, List<SubscriptionInfo> simInfoReceived, boolean sameCarrier) {
         List<String> ispNames;
         List<String> ispSlogans;
         this.context = context;
+        this.sameCarrier = sameCarrier;
         ISPAdapter.simInformation = simInfoReceived;
         simInfo = new HashMap<>();
         simIcons = new HashMap<>();
         serviceProviders = new ArrayList<>();
         hasSim = true;
-        for (int i = 0; i < simInformation.size(); i++) {
-            simIcons.put(simInformation.get(i).getCarrierName().toString(),
-                    simInformation.get(i).createIconBitmap(this.context));
-            simInfo.put(simInformation.get(i).getCarrierName().toString(),
-                    simInformation.get(i).getSimSlotIndex() + " " + simInformation.get(i).getIconTint());
+        if (sameCarrier) {
+            for (int i = 0; i < simInformation.size(); i++) {
+                simIcons.put(simInformation.get(i).getCarrierName().toString() + (i + 1),
+                        simInformation.get(i).createIconBitmap(this.context));
+                simInfo.put(simInformation.get(i).getCarrierName().toString() + (i + 1),
+                        simInformation.get(i).getSimSlotIndex() + " " + simInformation.get(i).getIconTint());
+            }
+        } else {
+            for (int i = 0; i < simInformation.size(); i++) {
+                simIcons.put(simInformation.get(i).getCarrierName().toString(),
+                        simInformation.get(i).createIconBitmap(this.context));
+                simInfo.put(simInformation.get(i).getCarrierName().toString(),
+                        simInformation.get(i).getSimSlotIndex() + " " + simInformation.get(i).getIconTint());
+            }
         }
         ispNames = Arrays.asList(context.getResources().getStringArray(R.array.isp_names));
         ispSlogans = Arrays.asList(context.getResources().getStringArray(R.array.isp_slogans));
@@ -88,8 +100,15 @@ public class ISPAdapter extends RecyclerView.Adapter<ISPAdapter.MyISPViewHolder>
         holder.ispSlogan.setText(serviceProviders.get(position).getISPSlogan());
         if (hasSim) {
             if (simInfo.containsKey(serviceProviders.get(position).getISPName())) {
-                holder.simImgBitmap.setVisibility(View.VISIBLE);
-                holder.simImgBitmap.setImageBitmap(simIcons.get(serviceProviders.get(position).getISPName()));
+                holder.simLayout.setVisibility(View.VISIBLE);
+                holder.firstSimImgBitmap.setVisibility(View.VISIBLE);
+                if (sameCarrier) {
+                    holder.secondSimImgBitmap.setVisibility(View.VISIBLE);
+                    holder.firstSimImgBitmap.setImageBitmap(simIcons.get(serviceProviders.get(position).getISPName() + "1"));
+                    holder.secondSimImgBitmap.setImageBitmap(simIcons.get(serviceProviders.get(position).getISPName() + "2"));
+                } else {
+                    holder.firstSimImgBitmap.setImageBitmap(simIcons.get(serviceProviders.get(position).getISPName()));
+                }
             }
         }
         holder.ispMainLayout.setOnClickListener(v -> {
@@ -98,6 +117,7 @@ public class ISPAdapter extends RecyclerView.Adapter<ISPAdapter.MyISPViewHolder>
             intent.putExtra(SIM_CARD_PRESENT, hasSim);
             intent.putExtra(ISP_NAME_EXT, serviceProviders.get(position).getISPName());
             intent.putExtra(ISP_SLOGAN_EXT, serviceProviders.get(position).getISPSlogan());
+            intent.putExtra(SAME_CARRIER, sameCarrier);
             context.startActivity(intent);
         });
     }
@@ -124,7 +144,8 @@ public class ISPAdapter extends RecyclerView.Adapter<ISPAdapter.MyISPViewHolder>
         CardView ispMainLayout;
         CircleImageView ispLogo;
         TextView ispName, ispSlogan;
-        ImageView simImgBitmap;
+        ImageView firstSimImgBitmap, secondSimImgBitmap;
+        LinearLayout simLayout;
 
         public MyISPViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -132,7 +153,9 @@ public class ISPAdapter extends RecyclerView.Adapter<ISPAdapter.MyISPViewHolder>
             ispLogo = itemView.findViewById(R.id.isp_main_logo);
             ispName = itemView.findViewById(R.id.serviceProvider);
             ispSlogan = itemView.findViewById(R.id.serviceProviderSlogan);
-            simImgBitmap = itemView.findViewById(R.id.firstSim);
+            simLayout = itemView.findViewById(R.id.simLayout);
+            firstSimImgBitmap = itemView.findViewById(R.id.firstSim);
+            secondSimImgBitmap = itemView.findViewById(R.id.secondSim);
         }
     }
 }

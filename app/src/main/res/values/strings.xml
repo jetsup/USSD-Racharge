@@ -19,4 +19,15 @@
     <string name="search">Search</string>
     <string name="call_provider">Call Provider</string>
     <string name="settings">Settings</string>
+
+    <string-array name="pref_themes_entries">
+        <item>Use System Theme</item>
+        <item>Dark Theme</item>
+        <item>Light Theme</item>
+    </string-array>
+    <string-array name="pref_themes_values">
+        <item>Use System Theme</item>
+        <item>Dark Theme</item>
+        <item>Light Theme</item>
+    </string-array>
 </resources>

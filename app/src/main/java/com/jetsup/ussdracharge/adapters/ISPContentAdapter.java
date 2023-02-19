@@ -39,6 +39,7 @@ public class ISPContentAdapter extends RecyclerView.Adapter<ISPContentAdapter.Co
 
     final String TAG = "MyTag";
     List<ISPContent> ispContentList;
+    boolean sameCarrier;
     List<ISPContent> ispContentListSearchable;
     private final Filter contentSearchFilter = new Filter() {
         @Override
@@ -94,12 +95,13 @@ public class ISPContentAdapter extends RecyclerView.Adapter<ISPContentAdapter.Co
     }
 
     @SuppressLint("DiscouragedApi")
-    public ISPContentAdapter(Context context, String isp_name, int simSlot) {
+    public ISPContentAdapter(Context context, String isp_name, int simSlot, boolean sameCarrier) {
         List<String> ussdCodeNames;
         List<String> ussdCodes;
         this.context = context;
-        ispContentList = new ArrayList<>();
         this.simSlot = simSlot;
+        this.sameCarrier = sameCarrier;
+        ispContentList = new ArrayList<>();
         simPresent = true;
         int codeNamesIdentifier = context.getResources().getIdentifier(isp_name + USSD_CODE_NAME_EXT, ARRAY_TYPE, context.getPackageName());
         ussdCodeNames = Arrays.asList(context.getResources().getStringArray(codeNamesIdentifier));
@@ -132,7 +134,9 @@ public class ISPContentAdapter extends RecyclerView.Adapter<ISPContentAdapter.Co
             Uri dialReqUri = Uri.fromParts("tel", ispContentList.get(position).getUssdCode(), null);
             Intent dialIntent = new Intent(Intent.ACTION_CALL, dialReqUri);
             if (simPresent) {
-                dialIntent.putExtra(SELECT_SIM_SLOT, simSlot);
+                if (!sameCarrier) {
+                    dialIntent.putExtra(SELECT_SIM_SLOT, simSlot);
+                }
             }
             context.startActivity(dialIntent);
         });
