@@ -2,23 +2,27 @@ package com.jetsup.ussdracharge;
 
 import static com.jetsup.ussdracharge.custom.ISPConstants.SIM_CARD_INFORMATION;
 import static com.jetsup.ussdracharge.custom.ISPConstants.SIM_CARD_PRESENT;
+import static com.jetsup.ussdracharge.custom.SharedPreferenceKeys.PREFERENCE_ACCENT_COLOR;
 
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.telephony.SubscriptionInfo;
 import android.telephony.SubscriptionManager;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.camera.core.ExperimentalGetImage;
@@ -38,15 +42,23 @@ import java.util.Objects;
 public class MainActivity extends AppCompatActivity {
     public static final String TAG = "MyTag";
     private static final int PHONE_STATE_PERMISSION = 2;
+    private static ActionBar actionBar;
+    private static Window window;
     private final int CALL_PERMISSION_REQUEST_CODE = 1;
     SharedPreferences settingsPreferences;
     List<SubscriptionInfo> activeSubscriptionInfoList;
     ISPAdapter ispAdapter;
     boolean sameCarrier;
     int simCardsDetected;
+    int accentColor;
     String[] simCards = {};
     RecyclerView mainRecyclerView;
     File myDirectory;
+
+    private static void setActionBarColor(int accentColor) {
+        actionBar.setBackgroundDrawable(new ColorDrawable(accentColor));
+        window.setStatusBarColor(accentColor);
+    }
 
     private void requestCallPermission() {
         if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CALL_PHONE)) {
@@ -80,9 +92,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // configure preferences
         settingsPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-//        configTheme(settingsPreferences);
+        actionBar = Objects.requireNonNull(getSupportActionBar());
+        window = getWindow();
+        accentColor = settingsPreferences.getInt(PREFERENCE_ACCENT_COLOR, getResources().getColor(R.color.purple_700, null));
+        setActionBarColor(accentColor);
 
         setContentView(R.layout.activity_main);
         Objects.requireNonNull(getSupportActionBar()).setTitle(R.string.ussd);
@@ -101,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
         simCardsDetected = activeSubscriptionInfoList.size();
         if (simCardsDetected > 0) {
             simCards = new String[simCardsDetected];
-            sameCarrier = simCardsDetected == 2 && activeSubscriptionInfoList.get(0).getCarrierName() == activeSubscriptionInfoList.get(1).getCarrierName();
+            sameCarrier = simCardsDetected == 2 && activeSubscriptionInfoList.get(0).getCarrierName().equals(activeSubscriptionInfoList.get(1).getCarrierName());
             for (int i = 0; i < simCardsDetected; i++) {
                 simCards[i] = activeSubscriptionInfoList.get(i).getSimSlotIndex()
                         + " " + activeSubscriptionInfoList.get(i).getCarrierName() // use as key in the hashmap
@@ -137,6 +151,13 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(this, "The folder was not created", Toast.LENGTH_LONG).show();
             }
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        accentColor = settingsPreferences.getInt(PREFERENCE_ACCENT_COLOR, getResources().getColor(R.color.purple_700, null));
+        setActionBarColor(accentColor);
     }
 
     @Override

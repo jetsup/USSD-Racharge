@@ -1,5 +1,8 @@
 package com.jetsup.ussdracharge.fragments;
 
+import static com.jetsup.ussdracharge.custom.SharedPreferenceKeys.PREFERENCE_ACCENT_COLOR;
+import static com.jetsup.ussdracharge.custom.SharedPreferenceKeys.PREFERENCE_THEME;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -29,12 +32,14 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         setPreferencesFromResource(R.xml.main_setting_screen, rootKey);
         context = this.requireContext();
         settingsPreference = Objects.requireNonNull(getPreferenceManager().getSharedPreferences());
-        currentColor = settingsPreference.getInt("accentColor", R.color.teal_200);
+        currentColor = settingsPreference.getInt(PREFERENCE_ACCENT_COLOR, R.color.teal_200);
 
         Objects.requireNonNull(ResourcesCompat.getDrawable(context.getResources(), R.drawable.accent_color_viewer, null))
                 .setTint(currentColor);
         Objects.requireNonNull(ResourcesCompat.getDrawable(context.getResources(), R.drawable.moon, null))
                 .setTint(getResources().getColor(R.color.grey, null));
+        Preference pref = Objects.requireNonNull(getPreferenceManager().getPreferenceScreen().findPreference(PREFERENCE_THEME));
+        pref.setIcon(R.drawable.sun);
     }
 
     @Override
@@ -48,7 +53,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
 
                 @Override
                 public void onOk(AmbilWarnaDialog dialog, int color) {
-                    settingsPreference.edit().putInt("accentColor", color).apply();
+                    settingsPreference.edit().putInt(PREFERENCE_ACCENT_COLOR, color).apply();
                     Objects.requireNonNull(ResourcesCompat
                                     .getDrawable(SettingsFragment.this.requireContext().getResources(),
                                             R.drawable.accent_color_viewer, null))

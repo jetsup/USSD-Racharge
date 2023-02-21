@@ -9,7 +9,7 @@
             app:entries="@array/pref_themes_entries"
             app:entryValues="@array/pref_themes_values"
             app:icon="@drawable/moon"
-            app:key="preferenceTheme"
+            app:key="prefTheme"
             app:title="Theme"
             app:useSimpleSummaryProvider="true" />
         <!--Accent Color Dialog-->
@@ -17,7 +17,7 @@
             android:title="Accent Color"
             app:dialogTitle="Select Accent Color"
             app:icon="@drawable/accent_color_viewer"
-            app:key="accentColor"
+            app:key="prefAccentColor"
             app:negativeButtonText="Cancel"
             app:persistent="true"
             app:positiveButtonText="Select"
@@ -34,6 +34,7 @@
             app:title="Notify Update" />
         <SwitchPreferenceCompat
             app:iconSpaceReserved="false"
+            app:dependency="prefNotifyUpdate"
             app:key="prefAutoUpdate"
             app:summary="Download updates automatically"
             app:title="Auto Update" />
@@ -43,7 +44,7 @@
         <Preference
             app:enabled="false"
             app:iconSpaceReserved="false"
-            app:key="preferenceAppVersion"
+            app:key="prefAppVersion"
             app:summary="1.0.0"
             app:title="Version" />
     </PreferenceCategory>

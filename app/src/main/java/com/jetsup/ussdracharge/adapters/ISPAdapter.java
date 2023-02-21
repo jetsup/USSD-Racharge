@@ -99,16 +99,24 @@ public class ISPAdapter extends RecyclerView.Adapter<ISPAdapter.MyISPViewHolder>
         holder.ispName.setText(serviceProviders.get(position).getISPName());
         holder.ispSlogan.setText(serviceProviders.get(position).getISPSlogan());
         if (hasSim) {
-            if (simInfo.containsKey(serviceProviders.get(position).getISPName())) {
-                holder.simLayout.setVisibility(View.VISIBLE);
-                holder.firstSimImgBitmap.setVisibility(View.VISIBLE);
-                if (sameCarrier) {
-                    holder.secondSimImgBitmap.setVisibility(View.VISIBLE);
-                    holder.firstSimImgBitmap.setImageBitmap(simIcons.get(serviceProviders.get(position).getISPName() + "1"));
-                    holder.secondSimImgBitmap.setImageBitmap(simIcons.get(serviceProviders.get(position).getISPName() + "2"));
-                } else {
-                    holder.firstSimImgBitmap.setImageBitmap(simIcons.get(serviceProviders.get(position).getISPName()));
+            holder.simLayout.setVisibility(View.VISIBLE);
+            if (sameCarrier) {
+                boolean firstIconSet = false;
+                for (int i = 0; i < simInfo.size(); i++) {
+                    if (simInfo.containsKey(serviceProviders.get(position).getISPName() + (i + 1))) {
+                        holder.firstSimImgBitmap.setVisibility(View.VISIBLE);
+                        holder.secondSimImgBitmap.setVisibility(View.VISIBLE);
+                        if (!firstIconSet) {
+                            holder.firstSimImgBitmap.setImageBitmap(simIcons.get(serviceProviders.get(position).getISPName() + (i + 1)));
+                            firstIconSet = true;
+                        } else {
+                            holder.secondSimImgBitmap.setImageBitmap(simIcons.get(serviceProviders.get(position).getISPName() + (i + 1)));
+                        }
+                    }
                 }
+            } else {
+                holder.firstSimImgBitmap.setVisibility(View.VISIBLE);
+                holder.firstSimImgBitmap.setImageBitmap(simIcons.get(serviceProviders.get(position).getISPName()));
             }
         }
         holder.ispMainLayout.setOnClickListener(v -> {
