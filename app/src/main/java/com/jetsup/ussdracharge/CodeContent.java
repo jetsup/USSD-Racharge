@@ -115,9 +115,9 @@ public class CodeContent extends AppCompatActivity {
 
         Log.w("MyTag", "Slot: " + simSlot + " <> " + simMatched + " <> " + ispNameReceived + " <> ");
         if (simMatched) {
-            ispContentAdapter = new ISPContentAdapter(CodeContent.this, ispNameReceived.toLowerCase(), simSlot, sameCarrier);
+            ispContentAdapter = new ISPContentAdapter(CodeContent.this, ispNameReceived, simSlot, sameCarrier);
         } else {
-            ispContentAdapter = new ISPContentAdapter(CodeContent.this, ispNameReceived.toLowerCase());
+            ispContentAdapter = new ISPContentAdapter(CodeContent.this, ispNameReceived);
         }
         ussdItemRecycler.setAdapter(ispContentAdapter);
     }

@@ -27,4 +27,6 @@ public class ISPConstants {
     public final static String TELKOM_RECHARGE_PREFIX = "*130*";
     public final static int AIRTEL_CREDIT_LENGTH = 12;
     public final static String AIRTEL_RECHARGE_PREFIX = "*130*";
+    public final static String REQUEST_PIN = "requesting pin";
+    public final static String REQUEST_PHONE_NUMBER = "requesting phone number";
 }
