@@ -1,8 +1,10 @@
 package com.jetsup.ussdracharge.adapters;
 
 
+import static com.jetsup.ussdracharge.custom.ISPConstants.AIRTEL_CREDIT_LENGTH;
 import static com.jetsup.ussdracharge.custom.ISPConstants.ARRAY_TYPE;
 import static com.jetsup.ussdracharge.custom.ISPConstants.DRAWABLE_TYPE;
+import static com.jetsup.ussdracharge.custom.ISPConstants.FAIBA_CREDIT_LENGTH;
 import static com.jetsup.ussdracharge.custom.ISPConstants.ISP_LOGO_EXT;
 import static com.jetsup.ussdracharge.custom.ISPConstants.ISP_NAME_AIRTEL;
 import static com.jetsup.ussdracharge.custom.ISPConstants.ISP_NAME_FAIBA;
@@ -10,7 +12,9 @@ import static com.jetsup.ussdracharge.custom.ISPConstants.ISP_NAME_SAFARICOM;
 import static com.jetsup.ussdracharge.custom.ISPConstants.ISP_NAME_TELKOM;
 import static com.jetsup.ussdracharge.custom.ISPConstants.REQUEST_PHONE_NUMBER;
 import static com.jetsup.ussdracharge.custom.ISPConstants.REQUEST_PIN;
+import static com.jetsup.ussdracharge.custom.ISPConstants.SAFARICOM_CREDIT_LENGTH;
 import static com.jetsup.ussdracharge.custom.ISPConstants.SELECT_SIM_SLOT;
+import static com.jetsup.ussdracharge.custom.ISPConstants.TELKOM_CREDIT_LENGTH;
 import static com.jetsup.ussdracharge.custom.ISPConstants.USSD_CODE_EXT;
 import static com.jetsup.ussdracharge.custom.ISPConstants.USSD_CODE_NAME_EXT;
 
@@ -20,6 +24,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,7 +34,6 @@ import android.widget.Button;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
@@ -45,7 +51,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -55,10 +60,12 @@ public class ISPContentAdapter extends RecyclerView.Adapter<ISPContentAdapter.Co
     final String TAG = "MyTag";
     private final String ispNameReceived;
     Pattern inputNumberPattern = Pattern.compile("^[*]\\d+[*][A-Za-z\\s]+#$");
+    Pattern phoneNumberFormat1 = Pattern.compile("^0[1 7]\\d{8}$");
+    Pattern pinFormat = Pattern.compile("\\d{12,16}");
+    Pattern phoneNumberFormat2 = Pattern.compile("^\\+254[1|7]\\d{8}$");
     String uriString;
     Uri dialReqUri;// = Uri.fromParts("tel", ispContentList.get(position).getUssdCode(), null);
     Map<String, Integer> pinLength = new HashMap<>();
-    Matcher matcher;
     List<ISPContent> ispContentList;
     String inputType;
     boolean sameCarrier;
@@ -95,12 +102,13 @@ public class ISPContentAdapter extends RecyclerView.Adapter<ISPContentAdapter.Co
     Drawable ispLogoIcon;
     private int simSlot;
     private boolean simPresent = false;
+    private boolean dial;
 
     {
-        pinLength.put(ISP_NAME_SAFARICOM, 16);
-        pinLength.put(ISP_NAME_AIRTEL, 14);
-        pinLength.put(ISP_NAME_TELKOM, 12);
-        pinLength.put(ISP_NAME_FAIBA, 16);
+        pinLength.put(ISP_NAME_SAFARICOM, SAFARICOM_CREDIT_LENGTH);
+        pinLength.put(ISP_NAME_AIRTEL, AIRTEL_CREDIT_LENGTH);
+        pinLength.put(ISP_NAME_TELKOM, TELKOM_CREDIT_LENGTH);
+        pinLength.put(ISP_NAME_FAIBA, FAIBA_CREDIT_LENGTH);
     }
 
     @SuppressLint("DiscouragedApi")
@@ -163,22 +171,67 @@ public class ISPContentAdapter extends RecyclerView.Adapter<ISPContentAdapter.Co
         holder.ussdCode.setText(ispContentList.get(position).getUssdCode());
         holder.ispLogoImage.setImageDrawable(ispLogoIcon);
         holder.cardViewLayout.setOnClickListener(v -> {
-//            Uri dialReqUri;// = Uri.fromParts("tel", ispContentList.get(position).getUssdCode(), null);
             Intent dialIntent = new Intent();
-//            if (simPresent && !sameCarrier) {
-//                dialIntent.putExtra(SELECT_SIM_SLOT, simSlot);
-//            }
 
-            // TODO: Handle inputs
-            matcher = inputNumberPattern.matcher(ispContentList.get(position).getUssdCode());
-            if (matcher.matches()) {
+            if (inputNumberPattern.matcher(ispContentList.get(position).getUssdCode()).matches()) {
                 Dialog dialog = new Dialog(context);
-                dialog.setTitle("Title");
+                dialog.setTitle("Input");
+                dialog.setOnKeyListener((dialog1, keyCode, event) -> {
+                    if (keyCode == KeyEvent.KEYCODE_BACK) {
+                        dialog1.dismiss();
+                    }
+                    return false;
+                });
                 dialog.setContentView(R.layout.card_dialler); // set the hint and textInput programmatically
                 dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                 dialog.setCancelable(false);
 
                 TextInputLayout inputLayout = dialog.findViewById(R.id.variableInputLayout);
+                Objects.requireNonNull(inputLayout.getEditText()).addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence s, int start, int before, int count) {
+                        if (inputType.equals(REQUEST_PIN)) {
+                            if (inputLayout.isErrorEnabled()) {
+                                if (pinFormat.matcher(s).matches() && s.length() == Objects.requireNonNull(pinLength.get(ispNameReceived))) {
+                                    inputLayout.setErrorEnabled(false);
+                                }
+                            }
+                        } else if (inputType.equals(REQUEST_PHONE_NUMBER)) {
+                            if (inputLayout.isErrorEnabled()) {
+                                if (phoneNumberFormat1.matcher(s).matches() || phoneNumberFormat1.matcher(s).matches()) {
+                                    inputLayout.setErrorEnabled(false);
+                                    inputLayout.setHelperText("Phone format check good");
+                                }
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable s) {
+                        if (inputType.equals(REQUEST_PIN)) {
+                            if (!pinFormat.matcher(s).matches() && s.length() != Objects.requireNonNull(pinLength.get(ispNameReceived))) {
+                                inputLayout.setHelperText("PIN format does not match the selected ISP");
+                            } else {
+                                inputLayout.setHelperText("PIN format matched");
+                            }
+                        } else if (inputType.equals(REQUEST_PHONE_NUMBER)) {
+                            if (!phoneNumberFormat1.matcher(s.toString()).matches()) {
+                                if (!phoneNumberFormat2.matcher(s).matches()) {
+                                    inputLayout.setHelperText("Phone number format unrecognized");
+                                } else {
+                                    inputLayout.setHelperText("Phone number format correct");
+                                }
+                            } else {
+                                inputLayout.setHelperText("Phone number format correct");
+                            }
+                        }
+                    }
+                });
                 if (ispContentList.get(position).getUssdCode().toLowerCase().contains("pin")) {
                     inputLayout.setHint("Enter the scratch card PIN");
                     inputType = REQUEST_PIN;
@@ -190,29 +243,39 @@ public class ISPContentAdapter extends RecyclerView.Adapter<ISPContentAdapter.Co
                 btnCancel.setOnClickListener(v1 -> dialog.dismiss());
                 btnDial.setOnClickListener(v12 -> {
                     if (inputType.equals(REQUEST_PIN)) {
-                        if (Objects.requireNonNull(inputLayout.getEditText()).getText().toString().length()
-                                >= Objects.requireNonNull(pinLength.get(ispNameReceived))) {
-                            uriString = Objects.requireNonNull(inputLayout.getEditText()).getText().toString();
+                        String scratchPIN = Objects.requireNonNull(inputLayout.getEditText()).getText().toString();
+                        if (pinFormat.matcher(scratchPIN).matches() &&
+                                scratchPIN.length() >= Objects.requireNonNull(pinLength.get(ispNameReceived))) {
+                            uriString = scratchPIN;
+                            dial = true;
                             dialog.dismiss();
                         } else {
-                            inputLayout.setError("Does not meet minimum length requirement for scratch card pin");
+                            inputLayout.setError("Scratch PIN format incorrect");
                         }
                     } else if (inputType.equals(REQUEST_PHONE_NUMBER)) {
-                        // TODO: check number format
-                        if (Objects.requireNonNull(inputLayout.getEditText()).getText().toString().length() >= 10) {
-                            uriString = Objects.requireNonNull(inputLayout.getEditText()).getText().toString();
+                        String phoneNumber = Objects.requireNonNull(inputLayout.getEditText()).getText().toString();
+                        if (phoneNumberFormat1.matcher(phoneNumber).matches() || phoneNumberFormat2.matcher(phoneNumber).matches()) {
+                            uriString = phoneNumber;
+                            dial = true;
+                            // TODO: confirmation dialog
+                            dialog.dismiss();
+                        } else {
+                            inputLayout.setError("Unrecognized Number Format");
                         }
                     }
-                    dialReqUri = Uri.fromParts("tel",
-                            ispContentList.get(position).getUssdCode().substring(0,
-                                    (ispContentList.get(position).getUssdCode().indexOf("*", 2) + 1)) +
-                                    uriString + "#", null);
+                    if (dial) {
+                        dialReqUri = Uri.fromParts("tel",
+                                ispContentList.get(position).getUssdCode().substring(0,
+                                        (ispContentList.get(position).getUssdCode().indexOf("*", 2) + 1)) +
+                                        uriString + "#", null);
 
-                    dialIntent.setAction(Intent.ACTION_CALL).setData(dialReqUri);
-                    if (simPresent && !sameCarrier) {
-                        dialIntent.putExtra(SELECT_SIM_SLOT, simSlot);
+                        dialIntent.setAction(Intent.ACTION_CALL).setData(dialReqUri);
+                        if (simPresent && !sameCarrier) {
+                            dialIntent.putExtra(SELECT_SIM_SLOT, simSlot);
+                        }
+                        context.startActivity(dialIntent);
+                        dial = false;
                     }
-                    context.startActivity(dialIntent);
                 });
 
                 dialog.create();
@@ -225,7 +288,6 @@ public class ISPContentAdapter extends RecyclerView.Adapter<ISPContentAdapter.Co
                 }
                 context.startActivity(dialIntent);
             }
-            Toast.makeText(context, "Clicked", Toast.LENGTH_SHORT).show();
         });
     }
 

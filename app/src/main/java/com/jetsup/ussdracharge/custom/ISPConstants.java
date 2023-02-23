@@ -25,8 +25,10 @@ public class ISPConstants {
     public final static String SAFARICOM_RECHARGE_PREFIX = "*141*";
     public final static int TELKOM_CREDIT_LENGTH = 12;
     public final static String TELKOM_RECHARGE_PREFIX = "*130*";
-    public final static int AIRTEL_CREDIT_LENGTH = 12;
+    public final static int AIRTEL_CREDIT_LENGTH = 14;
     public final static String AIRTEL_RECHARGE_PREFIX = "*130*";
+    public final static int FAIBA_CREDIT_LENGTH = 12;
+    public final static String FAIBA_RECHARGE_PREFIX = "*130*";
     public final static String REQUEST_PIN = "requesting pin";
     public final static String REQUEST_PHONE_NUMBER = "requesting phone number";
 }

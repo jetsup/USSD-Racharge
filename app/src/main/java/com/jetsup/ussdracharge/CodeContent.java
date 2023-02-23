@@ -133,6 +133,11 @@ public class CodeContent extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.isp_content_menu, menu);
         if (simSlot != 99) {
             menu.getItem(1).setVisible(true);
+            menu.add("STK").setOnMenuItemClickListener(item -> {
+                Intent stk = getApplicationContext().getPackageManager().getLaunchIntentForPackage("com.android.stk");
+                startActivity(stk); // TODO: select SIM Card automatically
+                return false;
+            });
         }
         return super.onCreateOptionsMenu(menu);
     }
