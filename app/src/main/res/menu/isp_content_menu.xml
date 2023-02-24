@@ -15,4 +15,8 @@
         android:tooltipText="Call service provider customer care number"
         android:visible="false"
         app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/contentLocateShop"
+        android:title="@string/locate_shop"
+        android:tooltipText="Locate ISP shop near you" />
 </menu>

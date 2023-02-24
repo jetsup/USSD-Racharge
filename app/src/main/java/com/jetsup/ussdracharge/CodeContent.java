@@ -173,6 +173,9 @@ public class CodeContent extends AppCompatActivity {
             }
             Toast.makeText(this, "Calling " + ispNameReceived + " :" + ispCustomerCare.get(ispName), Toast.LENGTH_SHORT).show();
             return true;
+        } else if (item.getItemId() == R.id.contentLocateShop) {
+            startActivity(new Intent(CodeContent.this, OpenMap.class));
+            return true;
         } else {
             return super.onOptionsItemSelected(item);
         }
