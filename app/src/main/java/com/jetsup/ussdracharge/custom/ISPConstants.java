@@ -20,7 +20,6 @@ public class ISPConstants {
     public final static String ARRAY_TYPE = "array";
     public final static String DRAWABLE_TYPE = "drawable";
     public final static String SELECT_SIM_SLOT = "com.android.phone.extra.slot";
-
     public final static int SAFARICOM_CREDIT_LENGTH = 16;
     public final static String SAFARICOM_RECHARGE_PREFIX = "*141*";
     public final static int TELKOM_CREDIT_LENGTH = 12;
@@ -31,4 +30,11 @@ public class ISPConstants {
     public final static String FAIBA_RECHARGE_PREFIX = "*130*";
     public final static String REQUEST_PIN = "requesting pin";
     public final static String REQUEST_PHONE_NUMBER = "requesting phone number";
+    // For services
+    public final static String CHANNEL_QUOTE_OFFLINE = "Daily Quotes Offline";
+    public final static String CHANNEL_QUOTE_ONLINE = "Daily Quotes Offline";
+    public final static String CHANNEL_NEWS = "News";
+    public final static int NOTIFICATION_CHANNEL_ISP_PROMO_NEWS_ID = 0;
+    public final static int NOTIFICATION_CHANNEL_OFFLINE_QUOTES_ID = 1;
+    public final static int NOTIFICATION_CHANNEL_ONLINE_QUOTES_ID = 2;
 }
