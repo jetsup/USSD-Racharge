@@ -56,8 +56,6 @@ import java.util.regex.Pattern;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ISPContentAdapter extends RecyclerView.Adapter<ISPContentAdapter.ContentViewHolder> implements Filterable {
-
-    final String TAG = "MyTag";
     private final String ispNameReceived;
     Pattern inputNumberPattern = Pattern.compile("^[*]\\d+[*][A-Za-z\\s]+#$");
     Pattern phoneNumberFormat1 = Pattern.compile("^0[1 7]\\d{8}$");

@@ -43,7 +43,6 @@ import java.util.Map;
 import java.util.Objects;
 
 public class CodeContent extends AppCompatActivity {
-    final String TAG = "MyTag";
     String ispNameReceived, ispSloganReceived;
     RecyclerView ussdItemRecycler;
     ISPContentAdapter ispContentAdapter;

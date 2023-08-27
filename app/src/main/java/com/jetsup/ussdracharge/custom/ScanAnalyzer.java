@@ -2,6 +2,7 @@ package com.jetsup.ussdracharge.custom;
 
 import static com.jetsup.ussdracharge.custom.ISPConstants.ISP_NAME_SAFARICOM;
 import static com.jetsup.ussdracharge.custom.ISPConstants.ISP_NAME_TELKOM;
+import static com.jetsup.ussdracharge.custom.ISPConstants.M_TAG;
 import static com.jetsup.ussdracharge.custom.ISPConstants.SAFARICOM_CREDIT_LENGTH;
 import static com.jetsup.ussdracharge.custom.ISPConstants.SAFARICOM_RECHARGE_PREFIX;
 import static com.jetsup.ussdracharge.custom.ISPConstants.TELKOM_CREDIT_LENGTH;
@@ -22,7 +23,6 @@ import com.google.mlkit.vision.text.Text;
 import com.google.mlkit.vision.text.TextRecognition;
 import com.google.mlkit.vision.text.TextRecognizer;
 import com.google.mlkit.vision.text.latin.TextRecognizerOptions;
-import com.jetsup.ussdracharge.MainActivity;
 import com.jetsup.ussdracharge.ScannerActivity;
 
 import java.util.Arrays;
@@ -33,7 +33,6 @@ import java.util.regex.Pattern;
 
 @ExperimentalGetImage
 public class ScanAnalyzer implements ImageAnalysis.Analyzer {
-    private final String TAG = "MyTag";
     TextRecognizer textRecognizer;
     Context context;
     StringBuilder scratchNumber = new StringBuilder();
@@ -54,9 +53,9 @@ public class ScanAnalyzer implements ImageAnalysis.Analyzer {
         Image litImage = imageProxy.getImage();
         InputImage image = InputImage.fromMediaImage(Objects.requireNonNull(litImage), imageProxy.getImageInfo().getRotationDegrees());
         Task<Text> result = textRecognizer.process(image)
-                .addOnFailureListener(e -> Log.e(MainActivity.TAG, "AnalyzerErr: " + e.getMessage()))
+                .addOnFailureListener(e -> Log.e(M_TAG, "AnalyzerErr: " + e.getMessage()))
                 .addOnCanceledListener(() -> {
-                    Log.w("MyTag", "Canceled");
+                    Log.w(M_TAG, "Canceled");
                     imageProxy.close();
                 });
         result.addOnCompleteListener(task -> {
@@ -77,19 +76,19 @@ public class ScanAnalyzer implements ImageAnalysis.Analyzer {
                                 scratchNumber.append(blockArray[i]);
                             }
 
-                            Log.w(MainActivity.TAG, "BlockA: " + Arrays.toString(blockArray));
+                            Log.w(M_TAG, "BlockA: " + Arrays.toString(blockArray));
                         } else if (blockArray[0].length() == 4 && blockArrTextM.matches() && blockArray.length >= 3) { // Process Safaricom and Telkom airtime TODO: Faiba?
-                            Log.w(TAG, "analyze: " + Arrays.toString(blockArray));
+                            Log.w(M_TAG, "analyze: " + Arrays.toString(blockArray));
                             scratchNumber = new StringBuilder();
                             for (String s : blockArray) {
                                 scratchNumber.append(s);
                             }
-                            Log.w(MainActivity.TAG, "BlockST: " + Arrays.toString(blockArray) + " <> " + scratchNumber);
+                            Log.w(M_TAG, "BlockST: " + Arrays.toString(blockArray) + " <> " + scratchNumber);
                         }
                     }
                 }
             } catch (Exception e) {
-                Log.e(TAG, "ErrTRY: " + e.getMessage());
+                Log.e(M_TAG, "ErrTRY: " + e.getMessage());
             }
             imageProxy.close();
         });
@@ -100,7 +99,7 @@ public class ScanAnalyzer implements ImageAnalysis.Analyzer {
             canScan = false;
             if (!done) {
                 if (matcher.matches()) {
-                    Log.w(TAG, "Scratchcard: " + scratchNumber);
+                    Log.w(M_TAG, "Scratchcard: " + scratchNumber);
                     int creditStringLength = scratchNumber.toString().length();
 
                     if (creditStringLength == SAFARICOM_CREDIT_LENGTH) {

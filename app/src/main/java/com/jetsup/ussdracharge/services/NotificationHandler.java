@@ -20,7 +20,6 @@ import androidx.core.app.NotificationManagerCompat;
 import com.jetsup.ussdracharge.R;
 
 public class NotificationHandler {
-    //    final String TAG = "MyTag";
     Context context;
     NotificationManagerCompat notificationManagerCompat;
 

@@ -1,5 +1,6 @@
 package com.jetsup.ussdracharge;
 
+import static com.jetsup.ussdracharge.custom.ISPConstants.M_TAG;
 import static com.jetsup.ussdracharge.custom.ISPConstants.SELECT_SIM_SLOT;
 import static com.jetsup.ussdracharge.custom.ISPConstants.SIM_CARD_INFORMATION;
 import static com.jetsup.ussdracharge.custom.ISPConstants.SIM_CARD_PRESENT;
@@ -46,7 +47,6 @@ public class ScannerActivity extends AppCompatActivity {
     public static Map<String, Integer> simInfo;
     public static String prefix;
     public static String rechargeFor;
-    final String TAG = "MyTag";
     String[] simCards;
     boolean simPresent;
     EditText recognizedCreditText;
@@ -113,7 +113,7 @@ public class ScannerActivity extends AppCompatActivity {
                         Intent rechargeIntent = new Intent(Intent.ACTION_CALL);
                         rechargeIntent.setData(dialUri);
                         if (ScannerActivity.simInfo.size() > 0) {
-                            Log.w(TAG, "Here " + rechargeFor);
+                            Log.w(M_TAG, "Here " + rechargeFor);
                             rechargeIntent.putExtra(SELECT_SIM_SLOT, simInfo.get(rechargeFor));
                         }
                         Toast.makeText(getBaseContext(), "Recharging " + rechargeFor, Toast.LENGTH_SHORT).show();

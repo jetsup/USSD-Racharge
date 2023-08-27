@@ -12,8 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MyAppClass extends Application {
-//    final String TAG = "MyTag";
-
     @Override
     public void onCreate() {
         super.onCreate();

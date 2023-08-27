@@ -1,5 +1,7 @@
 package com.jetsup.ussdracharge;
 
+import static com.jetsup.ussdracharge.custom.ISPConstants.M_TAG;
+
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
@@ -31,7 +33,6 @@ import java.util.List;
 import java.util.Objects;
 
 public class OpenMap extends AppCompatActivity {
-    final String TAG = "MyTag";
     private final int LOCATION_REQUEST_CODE = 100;
     ItemizedOverlay<OverlayItem> overlayItems;
     MapView mapView;
@@ -93,14 +94,14 @@ public class OpenMap extends AppCompatActivity {
                             addMarker(new GeoPoint(location.getLatitude() + 0.3, location.getLongitude() + 0.2), false);
 //                            mapView.getController().animateTo(new GeoPoint(location.getLatitude(), location.getLongitude()));
 //                            mapView.getController().setZoom(20.0);
-                            Log.d(TAG, "updateLocation: has permission");
+                            Log.d(M_TAG, "updateLocation: has permission");
 //                            mapView.getController().setCenter(new GeoPoint(location.getLatitude(), location.getLongitude()));
                         }
                 );
             } else {
                 mapView.getController().setZoom(10.0);
                 mapView.getController().setCenter(new GeoPoint(38.9, -9.6));
-                Log.d(TAG, "updateLocation: has no permission");
+                Log.d(M_TAG, "updateLocation: has no permission");
             }
         } catch (SecurityException ignore) {
         }
@@ -123,7 +124,7 @@ public class OpenMap extends AppCompatActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        Log.w(TAG, "onRequestPermissionsResult: " + requestCode + " <> " + Arrays.toString(permissions) + " <> " + Arrays.toString(grantResults));
+        Log.w(M_TAG, "onRequestPermissionsResult: " + requestCode + " <> " + Arrays.toString(permissions) + " <> " + Arrays.toString(grantResults));
         if (requestCode == LOCATION_REQUEST_CODE) {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
                 updateLocation();

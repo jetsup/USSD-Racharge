@@ -35,7 +35,6 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ISPAdapter extends RecyclerView.Adapter<ISPAdapter.MyISPViewHolder> {
     public static List<SubscriptionInfo> simInformation;
-    final String TAG = "MyTag"; // for Logcat debugging i.e. Log.i(TAG, "message");
     Context context;
     List<ISP> serviceProviders;
     Map<String, String> simInfo;

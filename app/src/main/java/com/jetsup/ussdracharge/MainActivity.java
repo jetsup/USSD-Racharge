@@ -40,7 +40,6 @@ import java.util.Objects;
 
 @ExperimentalGetImage
 public class MainActivity extends AppCompatActivity {
-    public static final String TAG = "MyTag";
     private static final int PHONE_STATE_PERMISSION = 2;
     private static ActionBar actionBar;
     private static Window window;

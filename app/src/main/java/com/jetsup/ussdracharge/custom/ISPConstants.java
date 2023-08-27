@@ -1,6 +1,7 @@
 package com.jetsup.ussdracharge.custom;
 
 public class ISPConstants {
+    public final static String M_TAG = "M_Tag";
     public final static String USSD_CODE_NAME_EXT = "_ussd_code_names";
     public final static String USSD_CODE_EXT = "_ussd_codes";
     public final static String SIM_CARD_PRESENT = "sim_present";

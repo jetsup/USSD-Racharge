@@ -1,5 +1,6 @@
 package com.jetsup.ussdracharge.fragments;
 
+import static com.jetsup.ussdracharge.custom.ISPConstants.M_TAG;
 import static com.jetsup.ussdracharge.custom.SharedPreferenceKeys.PREFERENCE_ACCENT_COLOR;
 import static com.jetsup.ussdracharge.custom.SharedPreferenceKeys.PREFERENCE_THEME;
 
@@ -22,7 +23,6 @@ import java.util.Objects;
 import yuku.ambilwarna.AmbilWarnaDialog;
 
 public class SettingsFragment extends PreferenceFragmentCompat {
-    final String TAG = "MyTag";
     int currentColor;
     Context context;
     SharedPreferences settingsPreference;
@@ -44,7 +44,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
 
     @Override
     public void onDisplayPreferenceDialog(@NonNull Preference preference) {
-        Log.w(TAG, "onDisplayPreferenceDialog: " + preference.getKey());
+        Log.w(M_TAG, "onDisplayPreferenceDialog: " + preference.getKey());
         if (preference instanceof PreferenceColorDialog) {
             new AmbilWarnaDialog(this.getContext(), currentColor, new AmbilWarnaDialog.OnAmbilWarnaListener() {
                 @Override
